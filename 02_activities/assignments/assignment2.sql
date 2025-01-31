@@ -19,8 +19,11 @@ HINT: keep the syntax the same, but edited the correct components with the strin
 The `||` values concatenate the columns into strings. 
 Edit the appropriate columns -- you're making two edits -- and the NULL rows will be fixed. 
 All the other rows will remain the same.) */
-
-
+SELECT 
+COALESCE(product_name, '') || ', ' || 
+COALESCE(product_size, '') || ' (' || 
+COALESCE(product_qty_type, 'unit') || ')'
+FROM product;
 
 --Windowed Functions
 /* 1. Write a query that selects from the customer_purchases table and numbers each customer’s  
