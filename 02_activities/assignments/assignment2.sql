@@ -56,8 +56,12 @@ only the customer’s most recent visit. */
 
 /* 3. Using a COUNT() window function, include a value along with each row of the 
 customer_purchases table that indicates how many different times that customer has purchased that product_id. */
-
-
+SELECT 
+    product_id, 
+    customer_id,
+    COUNT(product_id) OVER (PARTITION BY customer_id) AS purchase_number
+FROM 
+    customer_purchases;
 
 -- String manipulations
 /* 1. Some product names in the product table have descriptions like "Jar" or "Organic". 
