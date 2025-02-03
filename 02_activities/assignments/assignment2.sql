@@ -99,9 +99,39 @@ HINT: There are a possibly a few ways to do this query, but if you're struggling
 "best day" and "worst day"; 
 3) Query the second temp table twice, once for the best day, once for the worst day, 
 with a UNION binding them. */
-
-
-
+WITH SalesPerDate AS (
+    SELECT 
+        market_date,
+        SUM(quantity * cost_to_customer_per_qty) AS TotalSales
+    FROM 
+        customer_purchases
+    GROUP BY 
+        market_date
+),
+RankedSales AS (
+    SELECT 
+        market_date,
+        TotalSales,
+        RANK() OVER (ORDER BY TotalSales DESC) AS RankDesc,
+        RANK() OVER (ORDER BY TotalSales ASC) AS RankAsc
+    FROM 
+        SalesPerDate
+)
+SELECT 
+    market_date,
+    TotalSales
+FROM 
+    RankedSales
+WHERE 
+    RankDesc = 1
+UNION
+SELECT 
+    market_date,
+    TotalSales
+FROM 
+    RankedSales
+WHERE 
+    RankAsc = 1;
 
 /* SECTION 3 */
 
