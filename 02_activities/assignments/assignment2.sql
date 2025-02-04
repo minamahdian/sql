@@ -199,7 +199,15 @@ VALUES (1, 'Apple Pie', 10, 'unit', CURRENT_TIMESTAMP);
 
 HINT: If you don't specify a WHERE clause, you are going to have a bad time.*/
 DELETE FROM product_units
-WHERE product_name = 'Apple Pie';
+WHERE product_id = 1
+AND product_name = 'Apple Pie'
+AND snapshot_timestamp = (
+    SELECT MIN(snapshot_timestamp)
+    FROM product_units
+    WHERE product_id = 1
+    AND product_name = 'Apple Pie'
+);
+
 -- UPDATE
 /* 1.We want to add the current_quantity to the product_units table. 
 First, add a new column, current_quantity to the table using the following syntax.
@@ -218,7 +226,7 @@ Finally, make sure you have a WHERE statement to update the right row,
 When you have all of these components, you can run the update statement. */
 ALTER TABLE product_units
 ADD current_quantity INT;
-vendor_inventory (market_date,product_id, quantity, timestamp)
+vendor_inventory (product_id, quantity, timestamp)
 SELECT 
     product_id, 
     COALESCE(quantity, 0) AS last_quantity

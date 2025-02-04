@@ -44,10 +44,11 @@ Additionally, include a date table.
 There are several tools online you can use, I'd recommend [Draw.io](https://www.drawio.com/) or [LucidChart](https://www.lucidchart.com/pages/).
 
 **HINT:** You do not need to create any data for this prompt. This is a conceptual model only. 
+![alt text](image-2.png)
 
 #### Prompt 2
 We want to create employee shifts, splitting up the day into morning and evening. Add this to the ERD.
-
+![alt text](<Untitled Diagram3.png>)
 #### Prompt 3
 The store wants to keep customer addresses. Propose two architectures for the CUSTOMER_ADDRESS table, one that will retain changes, and another that will overwrite. Which is type 1, which is type 2? 
 
@@ -56,6 +57,13 @@ The store wants to keep customer addresses. Propose two architectures for the CU
 ```
 Your answer...
 ```
+-- Overwrite old address with new address
+UPDATE customer_address
+SET address = 'New Address'
+WHERE customer_id = 123;
+-- Insert new row with updated address and timestamp
+INSERT INTO customer_address (customer_id, address, effective_date)
+VALUES (123, 'New Address', CURRENT_TIMESTAMP);
 
 ***
 
