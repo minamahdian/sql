@@ -129,8 +129,8 @@ RankedSales AS (
     SELECT 
         market_date,
         TotalSales,
-        RANK() OVER (ORDER BY TotalSales DESC) AS RankDesc,
-        RANK() OVER (ORDER BY TotalSales ASC) AS RankAsc
+        RANK() OVER (ORDER BY TotalSales DESC) AS Rankbestday,
+        RANK() OVER (ORDER BY TotalSales ASC) AS Rankworstday
     FROM 
         SalesPerDate
 )
