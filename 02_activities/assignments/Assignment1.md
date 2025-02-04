@@ -106,6 +106,7 @@ Please do not pick the exact same tables that I have already diagrammed. For exa
 	- <img src="./images/01_farmers_market_conceptual_model.png" width="600">
 - The column names can be found in a few spots (DB Schema window in the bottom right, the Database Structure tab in the main window by expanding each table entry, at the top of the Browse Data tab in the main window)
 
+![alt text](<Untitled Diagram.png>)
 ***
 
 ## Section 2:
@@ -207,3 +208,6 @@ Consider, for example, concepts of fariness, inequality, social structures, marg
 ```
 Your thoughts...
 ```
+The value systems embedded in databases and data systems reflect several key principles that guide their design and functionality. When designing a database, it is crucial to have a logical framework and clear policies to ensure the system serves its intended purpose effectively. Accuracy and precision are essential for reliability and trustworthiness, while efficiency is achieved through optimized data processing and quick query responses. For instance, if a government requires access to information, maintaining accurate databases is critical for deriving insights and formulating effective policies.
+Many systems incorporate safeguards for privacy and security, reflecting a commitment to ethical responsibility. Inclusivity and equity are also emphasized, with efforts to minimize bias and improve access for marginalized groups. For example, in Pakistan's national identification system, it is essential to account for diverse family structures, such as children of unmarried women or those born through sperm donation, ensuring fair representation for all. Transparency, supported by clear documentation and auditable processes, underscores the importance of openness and accountability. Usability and accessibility, through user-friendly interfaces and compliance with accessibility standards, ensure broad engagement and utility.
+Additionally, some systems prioritize sustainability, demonstrating a commitment to environmental responsibility, while others focus on profit and commercialization, often emphasizing economic gains. Scalability and adaptability highlight values of innovation and readiness for evolving needs.

@@ -44,10 +44,11 @@ Additionally, include a date table.
 There are several tools online you can use, I'd recommend [Draw.io](https://www.drawio.com/) or [LucidChart](https://www.lucidchart.com/pages/).
 
 **HINT:** You do not need to create any data for this prompt. This is a conceptual model only. 
+![alt text](image-4.png)
 
 #### Prompt 2
 We want to create employee shifts, splitting up the day into morning and evening. Add this to the ERD.
-
+![alt text](<Untitled Diagram3.png>)
 #### Prompt 3
 The store wants to keep customer addresses. Propose two architectures for the CUSTOMER_ADDRESS table, one that will retain changes, and another that will overwrite. Which is type 1, which is type 2? 
 
@@ -56,6 +57,13 @@ The store wants to keep customer addresses. Propose two architectures for the CU
 ```
 Your answer...
 ```
+-- Overwrite old address with new address
+UPDATE customer_address
+SET address = 'New Address'
+WHERE customer_id = 123;
+-- Insert new row with updated address and timestamp
+INSERT INTO customer_address (customer_id, address, effective_date)
+VALUES (123, 'New Address', CURRENT_TIMESTAMP);
 
 ***
 
@@ -180,7 +188,15 @@ Read: Boykis, V. (2019, October 16). _Neural nets are just people all the way do
 
 Consider, for example, concepts of labour, bias, LLM proliferation, moderating content, intersection of technology and society, ect. 
 
-
 ```
 Your thoughts...
 ```
+The quality of the data used to train machine learning models is of paramount importance. When we intend to use any dataset as a training set, it is crucial to consider the context and nuances of the data. Equally important is ensuring ethical considerations are addressed, especially when data is sourced from individuals. It is essential to obtain their consent to confirm they are comfortable with the use of their information in training machine learning algorithms.
+
+Data quality and ethical considerations are pivotal when applying Large Language Models (LLMs) in social science. These models significantly influence decision-making, policy analysis, and societal interactions. The widespread adoption and integration of LLMs into science and technology rely heavily on the quality of the data they are trained on. Poor data quality can impede adoption, create ethical dilemmas, and stymie scientific progress. Conversely, high-quality data paves the way for reliable, scalable, and impactful AI applications.
+
+Bias within LLMs does not originate from the AI itself but rather from the low-quality, imbalanced, or historically biased data used to train them. By enhancing the quality of the training data, we can develop fairer, more ethical AI systems that better serve society as a whole. Ensuring data diversity and representation helps mitigate biases and fosters more equitable outcomes.
+
+Content moderation in LLMs is another area heavily reliant on data quality. The models learn what is acceptable, offensive, harmful, or misleading based on the data they are trained on. Inconsistent, biased, or poor-quality data can result in ineffective moderation, leading to undesirable outcomes. High-quality data, on the other hand, enhances the accuracy, fairness, and ethical deployment of AI, ensuring that content moderation aligns with societal values and norms.
+
+In summary, data quality and ethical considerations are the cornerstones of effective LLM application. By prioritizing these aspects, we can harness the full potential of LLMs while ensuring they are used responsibly and ethically in various domains, including social science.
