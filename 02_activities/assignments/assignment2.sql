@@ -51,7 +51,24 @@ FROM
 /* 2. Reverse the numbering of the query from a part so each customer’s most recent visit is labeled 1, 
 then write another query that uses this one as a subquery (or temp table) and filters the results to 
 only the customer’s most recent visit. */
-
+SELECT 
+    customer_id,
+    market_date,
+    ROW_NUMBER() OVER (PARTITION BY customer_id ORDER BY market_date DESC) AS reverse_visit_number
+FROM 
+    customer_purchases;
+SELECT 
+    customer_id,
+    market_date
+FROM (
+    SELECT 
+        customer_id,
+        market_date,
+        ROW_NUMBER() OVER (PARTITION BY customer_id ORDER BY market_date DESC) AS reverse_visit_number
+    FROM 
+        customer_purchases
+) AS subquery
+WHERE reverse_visit_number = 1;
 
 
 /* 3. Using a COUNT() window function, include a value along with each row of the 
@@ -145,8 +162,20 @@ Remember, CROSS JOIN will explode your table rows, so CROSS JOIN should likely b
 Think a bit about the row counts: how many distinct vendors, product names are there (x)?
 How many customers are there (y). 
 Before your final group by you should have the product of those two queries (x*y).  */
-
-
+SELECT 
+    v.vendor_name,
+    p.product_name,
+    SUM(vi.original_price * 5) AS total_revenue
+FROM 
+    (SELECT DISTINCT vendor_id, product_id, original_price FROM vendor_inventory) AS vi
+JOIN 
+    vendors AS v ON vi.vendor_id = v.vendor_id
+JOIN 
+    products AS p ON vi.product_id = p.product_id
+CROSS JOIN 
+    (SELECT DISTINCT customer_id FROM customer_purchases) AS c
+GROUP BY 
+    v.vendor_name, p.product_name;
 
 -- INSERT
 /*1.  Create a new table "product_units". 
@@ -187,6 +216,41 @@ Third, SET current_quantity = (...your select statement...), remembering that WH
 Finally, make sure you have a WHERE statement to update the right row, 
 	you'll need to use product_units.product_id to refer to the correct row within the product_units table. 
 When you have all of these components, you can run the update statement. */
+ALTER TABLE product_units
+ADD current_quantity INT;
+vendor_inventory (market_date,product_id, quantity, timestamp)
+SELECT 
+    product_id, 
+    COALESCE(quantity, 0) AS last_quantity
+FROM (
+    SELECT 
+        product_id, 
+        quantity, 
+        ROW_NUMBER() OVER (PARTITION BY product_id ORDER BY timestamp DESC) as row_num
+    FROM 
+        vendor_inventory
+) AS subquery
+WHERE row_num = 1;
+UPDATE product_units
+SET current_quantity = (
+    SELECT 
+        COALESCE(quantity, 0) 
+    FROM (
+        SELECT 
+            product_id, 
+            quantity, 
+            ROW_NUMBER() OVER (PARTITION BY product_id ORDER BY timestamp DESC) as row_num
+        FROM 
+            vendor_inventory
+    ) AS subquery
+    WHERE product_units.product_id = subquery.product_id
+    AND subquery.row_num = 1
+)
+WHERE EXISTS (
+    SELECT 1
+    FROM vendor_inventory
+    WHERE vendor_inventory.product_id = product_units.product_id
+);
 
 
 
